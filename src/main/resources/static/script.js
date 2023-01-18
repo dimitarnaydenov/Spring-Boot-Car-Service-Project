@@ -1,13 +1,11 @@
 function getAvailableHours(){
     let dateDom = document.getElementById('date');
     dateDom.addEventListener('change',(event) =>{
-        console.log("works!")
-        console.log(document.getElementById('date').value);
         let date = document.getElementById('date').value;
 
         const xhr = new XMLHttpRequest();
         // Initialize the request
-        xhr.open("GET", `/getAvailableHours?date=${date}`);
+        xhr.open("GET", `/getAvailableHours?date=${date}&id=${id}`);
         // Send the request
         xhr.send();
         // Fired once the request completes successfully
