@@ -10,7 +10,7 @@ public class AppointmentRequest {
 
     private String registrationNumber;
 
-    private String productionYear;
+    private Integer productionYear;
 
     private LocalDate date;
 
@@ -40,11 +40,11 @@ public class AppointmentRequest {
         this.registrationNumber = registrationNumber;
     }
 
-    public String getProductionYear() {
+    public Integer getProductionYear() {
         return productionYear;
     }
 
-    public void setProductionYear(String productionYear) {
+    public void setProductionYear(Integer productionYear) {
         this.productionYear = productionYear;
     }
 
