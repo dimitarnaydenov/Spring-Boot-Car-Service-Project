@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+<header th:insert="~{navigation :: header}"></header>
+<form th:action="@{/createInvoice(id=${appointment.id})}" method="POST">
+<div class="col-md-12 col-sm-12 col-12">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="row gutters">
+                <div class="col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <h6 class="text-primary">Brand</h6>
+                        <h6 th:text="${appointment.vehicle.brand}"></h6>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <h6 class="text-primary">Model</h6>
+                        <h6 th:text="${appointment.vehicle.model}"></h6>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <h6 class="text-primary">Production Year</h6>
+                        <h6 th:text="${appointment.vehicle.productionYear}"></h6>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <h6 class="text-primary">Date</h6>
+                        <h6 th:text="${appointment.date}"></h6>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <h6 class="text-primary">Hour</h6>
+                        <h6 th:text="${appointment.hour}"></h6>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label for="price">
+                            <h6 class="text-primary">Price</h6>
+                        </label>
+                        <input type="text" class="form-control" name="price" id="price" placeholder="" required>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label for="fixedProblem">
+                            <h6 class="text-primary">Fixed problem</h6>
+                        </label>
+                        <input type="text" class="form-control" name="fixedProblem" id="fixedProblem" placeholder="" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <input class="btn btn-primary btn-addContact float-right" type="submit" title="Create" value="Create">
+</form>
+
+</body>
+</html>
