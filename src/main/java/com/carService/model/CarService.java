@@ -16,7 +16,7 @@ public class CarService {
     private String name;
 
     @OneToMany
-    private List<Mechanic> mechanicList = new ArrayList<>();
+    private List<User> employeeList = new ArrayList<>();
 
     @OneToMany
     private List<Appointment> appointments = new ArrayList<>();
@@ -44,12 +44,12 @@ public class CarService {
         this.name = name;
     }
 
-    public List<Mechanic> getMechanicList() {
-        return mechanicList;
+    public List<User> getEmployeeList() {
+        return employeeList;
     }
 
-    public void setMechanicList(List<Mechanic> mechanicList) {
-        this.mechanicList = mechanicList;
+    public void setEmployeeList(List<User> employeeList) {
+        this.employeeList = employeeList;
     }
 
     public List<Appointment> getAppointments() {

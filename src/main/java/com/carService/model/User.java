@@ -1,6 +1,7 @@
 package com.carService.model;
 
 import jakarta.persistence.*;
+import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,9 @@ public class User {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles = new ArrayList<>();
+
+    @OneToOne
+    private Qualification qualification;
 
     public Integer getId() {
         return id;
@@ -80,5 +84,13 @@ public class User {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public Qualification getQualification() {
+        return qualification;
+    }
+
+    public void setQualification(Qualification qualification) {
+        this.qualification = qualification;
     }
 }
