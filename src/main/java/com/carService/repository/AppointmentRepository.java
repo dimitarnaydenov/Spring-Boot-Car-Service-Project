@@ -13,4 +13,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment,Integer
     Appointment findByCarServiceAndDateAndHour(CarService carService, LocalDate date, int hour);
 
     List<Appointment> findByUser(User user);
+
+    List<Appointment> findByCarService(CarService carService);
 }

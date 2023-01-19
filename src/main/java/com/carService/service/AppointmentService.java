@@ -45,6 +45,11 @@ public class AppointmentService {
         return appointmentRepository.findByUser(user);
     }
 
+    public List<Appointment> findAppointmentsByCarService(CarService carService)
+    {
+        return appointmentRepository.findByCarService(carService);
+    }
+
     public void deleteAppointment(Appointment appointment){
         appointmentRepository.delete(appointment);
     }
