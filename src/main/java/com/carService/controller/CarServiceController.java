@@ -7,6 +7,7 @@ import com.carService.model.Vehicle;
 import com.carService.model.dto.AppointmentRequest;
 import com.carService.repository.AppointmentRepository;
 import com.carService.repository.CarServiceRepository;
+import com.carService.repository.InvoiceRepository;
 import com.carService.service.AppointmentService;
 import com.carService.service.UserService;
 import com.carService.service.VehicleService;
@@ -35,45 +36,51 @@ public class CarServiceController {
     UserService userService;
     @Autowired
     VehicleService vehicleService;
+    @Autowired
+    InvoiceRepository invoiceRepository;
 
-    @GetMapping("/appointment")
-    public String showAppointment(Model model, @RequestParam String id) {
+    @GetMapping("/addService")
+    public String showAddService() {
 
-        CarService carService = carServiceRepository.findById(Integer.parseInt(id)).orElse(null);
-
-        model.addAttribute("service",carService);
-
-        return "appointment";
+        return "addService";
     }
 
-    @PostMapping("/appointment")
-    public String makeAppointment(@ModelAttribute AppointmentRequest appointmentRequest, @RequestParam String id) {
-        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    @GetMapping("/editService")
+    public String showEditService() {
 
-        if(appointmentRequest.getDate().isBefore(LocalDate.now())){
-            //TODO
-        }
+        return "editService";
+    }
 
-        Optional<CarService> carService = carServiceRepository.findById(Integer.parseInt(id));
-        if(carService.isPresent()){
-            User user = userService.findUserByUsername(principal.getUsername());
-            Vehicle vehicle = vehicleService.findByRegistrationNumber(appointmentRequest.getRegistrationNumber()).orElse(null);
-            if(vehicle == null){
-                vehicle = vehicleService.addVehicle(new Vehicle(appointmentRequest.getBrand(),appointmentRequest.getModel(),appointmentRequest.getRegistrationNumber(),appointmentRequest.getProductionYear()));
-            }
-            appointmentService.addAppointment(vehicle,user,carService.get(),appointmentRequest.getDate(),appointmentRequest.getHour());
-        }
+    @GetMapping("/deleteService")
+    public String deleteService(@RequestParam String id){
+
+         CarService carService = carServiceRepository.findById(Integer.parseInt(id)).orElse(null);
+
+        if(carService!=null) carServiceRepository.delete(carService);
 
         return "redirect:/services";
     }
 
-    @GetMapping("/myAppointments")
-    public String showAppointments(Model model) {
-        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userService.findUserByUsername(principal.getUsername());
+    @GetMapping("/service")
+    public String shoService(Model model, @RequestParam String id) {
 
-        model.addAttribute("appointments", appointmentService.findAppointmentsByUser(user));
-        return "myAppointments";
+        CarService carService = carServiceRepository.findById(Integer.parseInt(id)).orElse(null);
+
+        boolean employeeInService = false;
+
+        if(carService != null){
+            model.addAttribute("service",carService);
+
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if(!principal.toString().equals("anonymousUser")){
+                User user = userService.findUserByUsername(((UserDetails)principal).getUsername());
+                employeeInService = carService.getEmployeeList().contains(user);
+            }
+        }
+
+        model.addAttribute("employeeInService",employeeInService);
+
+        return "servicePage";
     }
 
     @GetMapping("/services")
@@ -81,6 +88,15 @@ public class CarServiceController {
 
         model.addAttribute("services", carServiceRepository.findAll());
         return "carServices";
+    }
+
+    @GetMapping("/myInvoices")
+    public String showInvoices(Model model) {
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.findUserByUsername(principal.getUsername());
+
+        model.addAttribute("invoices", invoiceRepository.findInvoicesByClient(user));
+        return "myInvoices";
     }
 
     @GetMapping("/getAvailableHours")
@@ -92,13 +108,5 @@ public class CarServiceController {
             return new ResponseEntity<List<Integer>>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/cancelAppointment")
-    public String cancelAppointment(@RequestParam String id){
 
-        Appointment appointment = appointmentService.findAppointmentById(Integer.parseInt(id)).orElse(null);
-
-        if(appointment!=null) appointmentService.deleteAppointment(appointment);
-
-        return "redirect:/myAppointments";
-    }
 }
