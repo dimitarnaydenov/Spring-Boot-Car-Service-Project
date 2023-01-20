@@ -59,4 +59,14 @@ public class Qualification {
     public void setChangingConsumables(boolean changingConsumables) {
         this.changingConsumables = changingConsumables;
     }
+
+    public Qualification() {
+    }
+
+    public Qualification(boolean chassis, boolean engine, boolean breakSystem, boolean changingConsumables) {
+        this.chassis = chassis;
+        this.engine = engine;
+        this.breakSystem = breakSystem;
+        this.changingConsumables = changingConsumables;
+    }
 }

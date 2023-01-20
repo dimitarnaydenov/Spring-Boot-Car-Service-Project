@@ -62,6 +62,14 @@ public class Invoice {
         this.fixedProblem = fixedProblem;
     }
 
+    public CarService getCarService() {
+        return carService;
+    }
+
+    public void setCarService(CarService carService) {
+        this.carService = carService;
+    }
+
     public Invoice() {
     }
 

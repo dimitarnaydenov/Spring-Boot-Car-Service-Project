@@ -16,15 +16,20 @@ import java.util.Optional;
 @Service
 public class AppointmentService {
 
-    @Autowired
+
     AppointmentRepository appointmentRepository;
+
+    @Autowired
+    public AppointmentService(AppointmentRepository appointmentRepository) {
+        this.appointmentRepository = appointmentRepository;
+    }
 
     public List<Integer> getAvailableHours(LocalDate date, CarService carService){
         int startHour = 8;
         int endHour = 18;
         List<Integer> result = new ArrayList<>();
         for (int i = startHour; i <= endHour; i++) {
-            if(appointmentRepository.findByCarServiceAndDateAndHour(carService,date,i) == null){
+            if(checkIfHourIsFree(date, carService, i)){
                 result.add(i);
             }
 
@@ -32,8 +37,12 @@ public class AppointmentService {
         return result;
     }
 
+    private boolean checkIfHourIsFree(LocalDate date, CarService carService, int i) {
+        return appointmentRepository.findByCarServiceAndDateAndHour(carService, date, i) == null;
+    }
+
     public Appointment addAppointment(Vehicle vehicle, User user, CarService carService, LocalDate date, int hour){
-        if(appointmentRepository.findByCarServiceAndDateAndHour(carService,date,hour) == null){
+        if(checkIfHourIsFree(date, carService, hour)){
             Appointment appointment = new Appointment(vehicle,user,carService,date,hour);
             return appointmentRepository.save(appointment);
         }

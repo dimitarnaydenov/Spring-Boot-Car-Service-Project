@@ -26,14 +26,19 @@ import java.util.Optional;
 @Controller
 public class AppointmentController {
 
-    @Autowired
     CarServiceRepository carServiceRepository;
-    @Autowired
     AppointmentService appointmentService;
-    @Autowired
     UserService userService;
-    @Autowired
     VehicleService vehicleService;
+
+    @Autowired
+    public AppointmentController(CarServiceRepository carServiceRepository, AppointmentService appointmentService,
+                                 UserService userService, VehicleService vehicleService) {
+        this.carServiceRepository = carServiceRepository;
+        this.appointmentService = appointmentService;
+        this.userService = userService;
+        this.vehicleService = vehicleService;
+    }
 
     @GetMapping("/appointment")
     public String showAppointment(Model model, @RequestParam String id) {
