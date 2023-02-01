@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Invoice</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header th:insert="~{navigation :: header}"></header>
+
+<div class="container text-center">
+    <h2 class="mt-2">Edit Invoice</h2>
+<form th:action="@{'/editInvoice?id='+${invoice.id}}" method="POST">
+    <div class="row gutters" id="fields">
+
+        <div class="row d-flex justify-content-center">
+            <div class="form-group">
+                <label for="price">
+                    <h6 class="text-primary">Price</h6>
+                </label>
+                <input type="text" class="form-control" name="price" id="price" th:value="${invoice.getPrice()}" minlength="1" maxlength="45" required>
+            </div>
+
+            <div class="form-group">
+                <label for="fixedProblem">
+                    <h6 class="text-primary">Fixed Problem</h6>
+                </label>
+                <input type="text" class="form-control" name="fixedProblem" id="fixedProblem" th:value="${invoice.getFixedProblem()}" minlength="1" maxlength="200" required>
+            </div>
+
+            <div class="form-group">
+                <label for="brand">
+                    <h6 class="text-primary">Car brand</h6>
+                </label>
+                <select class="form-control" name="brand" id="brand" placeholder="" required>
+                    <option value="Alfa Romeo" th:selected="${invoice.getBrand() == 'Alfa Romeo'}">Alfa Romeo</option>
+                    <option value="Aston martin" th:selected="${invoice.getBrand() == 'Aston martin'}">Aston martin</option>
+                    <option value="Audi" th:selected="${invoice.getBrand() == 'Audi'}">Audi</option>
+                    <option value="BMW" th:selected="${invoice.getBrand() == 'BMW'}">BMW</option>
+                    <option value="Bentley" th:selected="${invoice.getBrand() == 'Bentley'}">Bentley</option>
+                    <option value="Bugatti" th:selected="${invoice.getBrand() == 'Bugatti'}">Bugatti</option>
+                    <option value="Cadillac" th:selected="${invoice.getBrand() == 'Cadillac'}">Cadillac</option>
+                    <option value="Chevrolet" th:selected="${invoice.getBrand() == 'Chevrolet'}">Chevrolet</option>
+                    <option value="Chrysler" th:selected="${invoice.getBrand() == 'Chrysler'}">Chrysler</option>
+                    <option value="Citroen" th:selected="${invoice.getBrand() == 'Citroen'}">Citroen</option>
+                    <option value="Corvette" th:selected="${invoice.getBrand() == 'Corvette'}">Corvette</option>
+                    <option value="Dacia" th:selected="${invoice.getBrand() == 'Dacia'}">Dacia</option>
+                    <option value="Daewoo" th:selected="${invoice.getBrand() == 'Daewoo'}">Daewoo</option>
+                    <option value="Dodge" th:selected="${invoice.getBrand() == 'Dodge'}">Dodge</option>
+                    <option value="Ferrari" th:selected="${invoice.getBrand() == 'Ferrari'}">Ferrari</option>
+                    <option value="Fiat" th:selected="${invoice.getBrand() == 'Fiat'}">Fiat</option>
+                    <option value="Ford" th:selected="${invoice.getBrand() == 'Ford'}">Ford</option>
+                    <option value="Great Wall" th:selected="${invoice.getBrand() == 'Great Wall'}">Great Wall</option>
+                    <option value="Honda" th:selected="${invoice.getBrand() == 'Honda'}">Honda</option>
+                    <option value="Hyundai" th:selected="${invoice.getBrand() == 'Hyundai'}">Hyundai</option>
+                    <option value="Infiniti" th:selected="${invoice.getBrand() == 'Infiniti'}">Infiniti</option>
+                    <option value="Iveco" th:selected="${invoice.getBrand() == 'Iveco'}">Iveco</option>
+                    <option value="Jaguar" th:selected="${invoice.getBrand() == 'Jaguar'}">Jaguar</option>
+                    <option value="Jeep" th:selected="${invoice.getBrand() == 'Jeep'}">Jeep</option>
+                    <option value="Kia" th:selected="${invoice.getBrand() == 'Kia'}">Kia</option>
+                    <option value="Lada" th:selected="${invoice.getBrand() == 'Lada'}">Lada</option>
+                    <option value="Lamborghini" th:selected="${invoice.getBrand() == 'Lamborghini'}">Lamborghini</option>
+                    <option value="Land Rover" th:selected="${invoice.getBrand() == 'Land Rover'}">Land Rover</option>
+                    <option value="Lexus" th:selected="${invoice.getBrand() == 'Lexus'}">Lexus</option>
+                    <option value="Maserati" th:selected="${invoice.getBrand() == 'Maserati'}">Maserati</option>
+                    <option value="Maybach" th:selected="${invoice.getBrand() == 'Maybach'}" >Maybach</option>
+                    <option value="Mazda" th:selected="${invoice.getBrand() == 'Mazda'}">Mazda</option>
+                    <option value="Mercedes-Benz" th:selected="${invoice.getBrand() == 'Mercedes-Benz'}">Mercedes-Benz</option>
+                    <option value="Mini" th:selected="${invoice.getBrand() == 'Mini'}">Mini</option>
+                    <option value="Mitsubishi" th:selected="${invoice.getBrand() == 'Mitsubishi'}">Mitsubishi</option>
+                    <option value="Moskvich" th:selected="${invoice.getBrand() == 'Moskvich'}">Moskvich</option>
+                    <option value="Nissan" th:selected="${invoice.getBrand() == 'Nissan'}">Nissan</option>
+                    <option value="Opel" th:selected="${invoice.getBrand() == 'Opel'}">Opel</option>
+                    <option value="Peugeot" th:selected="${invoice.getBrand() == 'Peugeot'}">Peugeot</option>
+                    <option value="Porsche" th:selected="${invoice.getBrand() == 'Porsche'}">Porsche</option>
+                    <option value="Renault" th:selected="${invoice.getBrand() == 'Renault'}">Renault</option>
+                    <option value="Rolls-Royce" th:selected="${invoice.getBrand() == 'Rolls-Royce'}">Rolls-Royce</option>
+                    <option value="Saab" th:selected="${invoice.getBrand() == 'Saab'}">Saab</option>
+                    <option value="Seat" th:selected="${invoice.getBrand() == 'Seat'}">Seat</option>
+                    <option value="Skoda" th:selected="${invoice.getBrand() == 'Skoda'}">Skoda</option>
+                    <option value="Smart" th:selected="${invoice.getBrand() == 'Smart'}">Smart</option>
+                    <option value="SsangYong" th:selected="${invoice.getBrand() == 'SsangYong'}">SsangYong</option>
+                    <option value="Subaru" th:selected="${invoice.getBrand() == 'Subaru'}">Subaru</option>
+                    <option value="Suzuki" th:selected="${invoice.getBrand() == 'Suzuki'}">Suzuki</option>
+                    <option value="Tesla" th:selected="${invoice.getBrand() == 'Tesla'}">Tesla</option>
+                    <option value="Toyota" th:selected="${invoice.getBrand() == 'Toyota'}">Toyota</option>
+                    <option value="Trabant" th:selected="${invoice.getBrand() == 'Trabant'}">Trabant</option>
+                    <option value="VW" th:selected="${invoice.getBrand() == 'VW'}">VW</option>
+                    <option value="Volvo" th:selected="${invoice.getBrand() == 'Volvo'}">Volvo</option>
+                    <option value="Other" th:selected="${invoice.getBrand() == 'Other'}">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="model">
+                    <h6 class="text-primary">Model</h6>
+                </label>
+                <input type="text" class="form-control" name="model" id="model" th:value="${invoice.getModel()}" minlength="1" maxlength="200" required>
+            </div>
+
+            <div class="form-group">
+                <label for="registrationNumber">
+                    <h6 class="text-primary">Registration Number</h6>
+                </label>
+                <input type="text" class="form-control" name="registrationNumber" id="registrationNumber" th:value="${invoice.getRegistrationNumber()}" minlength="1" maxlength="200" required>
+            </div>
+
+            <div class="form-group">
+                <label for="productionYear">
+                    <h6 class="text-primary">Production Year</h6>
+                </label>
+                <input type="text" class="form-control" name="productionYear" id="productionYear" th:value="${invoice.getProductionYear()}" minlength="1" maxlength="200" required>
+            </div>
+
+            <div class="form-group">
+                <label for="username">
+                    <h6 class="text-primary">Client Username</h6>
+                </label>
+                <input type="text" class="form-control" name="username" id="username" th:value="${invoice.getUsername()}" minlength="1" maxlength="200" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">
+                    <h6 class="text-primary">Client Email</h6>
+                </label>
+                <input type="text" class="form-control" name="email" id="email" th:value="${invoice.getEmail()}" minlength="1" maxlength="200" required>
+            </div>
+
+            <div class="form-group">
+                <label for="firstName">
+                    <h6 class="text-primary">Client First Name</h6>
+                </label>
+                <input type="text" class="form-control" name="firstName" id="firstName" th:value="${invoice.getFirstName()}" minlength="1" maxlength="200" required>
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">
+                    <h6 class="text-primary">Client Last Name</h6>
+                </label>
+                <input type="text" class="form-control" name="lastName" id="lastName" th:value="${invoice.getLastName()}" minlength="1" maxlength="200" required>
+            </div>
+
+        </div>
+
+        <div>
+            <input class="btn btn-primary btn-addContact float-right mt-2" type="submit" title="Edit" value="Edit">
+
+        </div>
+    </div>
+
+</form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
