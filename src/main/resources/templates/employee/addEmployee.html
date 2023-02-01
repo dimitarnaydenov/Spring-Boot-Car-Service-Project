@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employees</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+<header th:insert="~{navigation :: header}"></header>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Username</th>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Qualifications</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each = "unemployedWorker: ${unemployedWorkers}">
+        <th scope="row" th:text="${unemployedWorkerStat.index + 1}"></th>
+        <td th:text="${unemployedWorker.username}"></td>
+        <td th:text="${unemployedWorker.firstName}"></td>
+        <td th:text="${unemployedWorker.lastName}"></td>
+        <td> <p th:if="${unemployedWorker.qualification.chassis}  == true">chassis</p> <p th:if="${unemployedWorker.qualification.engine} == true">engine</p> <p th:if="${unemployedWorker.qualification.breakSystem} == true">breakSystem</p> <p th:if="${unemployedWorker.qualification.changingConsumables} == true">changingConsumables</p></td>
+        <td><a type="button" class="btn btn-success" th:href="${'/addEmployeeToService?user_id=' + {unemployedWorker.id} + '&service_id=' + {service_id}}">Appoint</a></td>
+    </tr>
+    </tbody>
+
+</table>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
