@@ -27,14 +27,6 @@
                 <input type="text" class="form-control" name="address" id="address" th:value="${service.getAddress()}" minlength="1" maxlength="200" required>
             </div>
 
-            <p>If the service is now working with all types of brands, write separated with comma, brands you work only with</p>
-            <p>Example: Mercedes,BMW</p>
-            <div class="form-group">
-                <label for="brands">
-                    <h6 class="text-primary">Brands</h6>
-                </label>
-                <input type="text" class="form-control" th:value="${#strings.listJoin(service.getBrands(),',')}" name="brands" id="brands">
-            </div>
         </div>
 
         <div>
