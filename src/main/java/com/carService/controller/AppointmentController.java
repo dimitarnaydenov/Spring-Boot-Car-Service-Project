@@ -8,6 +8,7 @@ import com.carService.model.dto.AppointmentRequest;
 import com.carService.repository.CarServiceRepository;
 import com.carService.repository.InvoiceRepository;
 import com.carService.service.AppointmentService;
+import com.carService.service.CarServiceService;
 import com.carService.service.UserService;
 import com.carService.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,39 +27,43 @@ import java.util.Optional;
 @Controller
 public class AppointmentController {
 
-    CarServiceRepository carServiceRepository;
+    CarServiceService carServiceService;
     AppointmentService appointmentService;
     UserService userService;
     VehicleService vehicleService;
 
     @Autowired
-    public AppointmentController(CarServiceRepository carServiceRepository, AppointmentService appointmentService,
+    public AppointmentController(CarServiceService carServiceService, AppointmentService appointmentService,
                                  UserService userService, VehicleService vehicleService) {
-        this.carServiceRepository = carServiceRepository;
+        this.carServiceService = carServiceService;
         this.appointmentService = appointmentService;
         this.userService = userService;
         this.vehicleService = vehicleService;
     }
 
     @GetMapping("/appointment")
-    public String showAppointment(Model model, @RequestParam String id) {
+    public String showAppointment(Model model, @RequestParam String id, @RequestParam Optional<String> error) {
 
-        CarService carService = carServiceRepository.findById(Integer.parseInt(id)).orElse(null);
+        CarService carService = carServiceService.findById(Integer.parseInt(id)).orElse(null);
+
+        if(error.isPresent()){
+            model.addAttribute("dateError",true);
+        }
 
         model.addAttribute("service",carService);
 
-        return "appointment";
+        return "appointment/appointment";
     }
 
     @PostMapping("/appointment")
     public String makeAppointment(@ModelAttribute AppointmentRequest appointmentRequest, @RequestParam String id) {
-        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if(appointmentRequest.getDate().isBefore(LocalDate.now())){
-            //TODO
+        if(!appointmentRequest.getDate().isAfter(LocalDate.now())){
+            return "redirect:/appointment?id="+id+"&error=date";
         }
 
-        Optional<CarService> carService = carServiceRepository.findById(Integer.parseInt(id));
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        Optional<CarService> carService = carServiceService.findById(Integer.parseInt(id));
         if(carService.isPresent()){
             User user = userService.findUserByUsername(principal.getUsername());
             Vehicle vehicle = vehicleService.findByRegistrationNumber(appointmentRequest.getRegistrationNumber()).orElse(null);
@@ -77,7 +82,7 @@ public class AppointmentController {
         User user = userService.findUserByUsername(principal.getUsername());
 
         model.addAttribute("appointments", appointmentService.findAppointmentsByUser(user));
-        return "myAppointments";
+        return "appointment/myAppointments";
     }
 
     @GetMapping("/cancelAppointment")
