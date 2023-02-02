@@ -8,9 +8,7 @@ import com.carService.model.dto.AppointmentRequest;
 import com.carService.repository.AppointmentRepository;
 import com.carService.repository.CarServiceRepository;
 import com.carService.repository.InvoiceRepository;
-import com.carService.service.AppointmentService;
-import com.carService.service.UserService;
-import com.carService.service.VehicleService;
+import com.carService.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -28,35 +26,64 @@ import java.util.Optional;
 @Controller
 public class CarServiceController {
 
-    @Autowired
-    CarServiceRepository carServiceRepository;
-    @Autowired
+    CarServiceService carServiceService;
     AppointmentService appointmentService;
-    @Autowired
     UserService userService;
-    @Autowired
     VehicleService vehicleService;
+    InvoiceService invoiceService;
+
     @Autowired
-    InvoiceRepository invoiceRepository;
+    public CarServiceController(CarServiceService carServiceService, AppointmentService appointmentService,
+                                UserService userService, VehicleService vehicleService, InvoiceService invoiceService) {
+        this.carServiceService = carServiceService;
+        this.appointmentService = appointmentService;
+        this.userService = userService;
+        this.vehicleService = vehicleService;
+        this.invoiceService = invoiceService;
+    }
 
     @GetMapping("/addService")
     public String showAddService() {
 
-        return "addService";
+        return "services/addService";
+    }
+
+    @PostMapping("/addService")
+    public String addService(CarService carService) {
+
+        carServiceService.addService(carService);
+        return "redirect:/services";
     }
 
     @GetMapping("/editService")
-    public String showEditService() {
+    public String showEditService(Model model, @RequestParam String id) {
 
-        return "editService";
+        CarService carService = carServiceService.findById(Integer.parseInt(id)).orElse(null);
+
+        if(carService!=null){
+            model.addAttribute("service",carService);
+        }
+
+        return "services/editService";
+    }
+
+    @PostMapping("/editService")
+    public String editService(CarService carService, @RequestParam String id) {
+
+        carServiceService.editCarService(carService, Integer.parseInt(id));
+
+        return "redirect:/services";
     }
 
     @GetMapping("/deleteService")
     public String deleteService(@RequestParam String id){
 
-         CarService carService = carServiceRepository.findById(Integer.parseInt(id)).orElse(null);
+         CarService carService = carServiceService.findById(Integer.parseInt(id)).orElse(null);
 
-        if(carService!=null) carServiceRepository.delete(carService);
+        if(carService!=null){
+            carServiceService.delete(carService);
+
+        }
 
         return "redirect:/services";
     }
@@ -64,7 +91,7 @@ public class CarServiceController {
     @GetMapping("/service")
     public String shoService(Model model, @RequestParam String id) {
 
-        CarService carService = carServiceRepository.findById(Integer.parseInt(id)).orElse(null);
+        CarService carService = carServiceService.findById(Integer.parseInt(id)).orElse(null);
 
         boolean employeeInService = false;
 
@@ -80,33 +107,36 @@ public class CarServiceController {
 
         model.addAttribute("employeeInService",employeeInService);
 
-        return "servicePage";
+        return "services/servicePage";
     }
 
     @GetMapping("/services")
     public String showServices(Model model) {
 
-        model.addAttribute("services", carServiceRepository.findAll());
-        return "carServices";
-    }
-
-    @GetMapping("/myInvoices")
-    public String showInvoices(Model model) {
-        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userService.findUserByUsername(principal.getUsername());
-
-        model.addAttribute("invoices", invoiceRepository.findInvoicesByClient(user));
-        return "myInvoices";
+        model.addAttribute("services", carServiceService.findAll());
+        return "services/carServices";
     }
 
     @GetMapping("/getAvailableHours")
     public ResponseEntity<List<Integer>> getAvailableHours(@RequestParam("date") LocalDate date, @RequestParam("id") String id){
-        CarService carService = carServiceRepository.findById(Integer.parseInt(id)).orElse(null);
+        CarService carService = carServiceService.findById(Integer.parseInt(id)).orElse(null);
         if(carService != null)
             return new ResponseEntity<List<Integer>>(appointmentService.getAvailableHours(date,carService),HttpStatus.OK);
         else
             return new ResponseEntity<List<Integer>>(HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/employees")
+    public String showEmployees(Model model, @RequestParam String id){
+
+        CarService carService = carServiceService.findById(Integer.parseInt(id)).orElse(null);
+
+        if (carService != null){
+            model.addAttribute("employees",carService.getEmployeeList());
+            model.addAttribute("service_id",carService.getId());
+        }
+
+        return "employee/employees";
+    }
 
 }
