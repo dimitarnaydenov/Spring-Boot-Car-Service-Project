@@ -17,6 +17,22 @@ public class SecurityConfiguration{
         http
                 .authorizeHttpRequests()
                 .requestMatchers("/appointment").authenticated()
+                .requestMatchers("/myAppointments").authenticated()
+                .requestMatchers("/cancelAppointment").authenticated()
+                .requestMatchers("/myInvoices").authenticated()
+                .requestMatchers("/addService").hasAuthority("ADMIN")
+                .requestMatchers("/editService").hasAuthority("ADMIN")
+                .requestMatchers("/deleteService").hasAuthority("ADMIN")
+                .requestMatchers("/employees").hasAnyAuthority("ADMIN","EMPLOYEE")
+                .requestMatchers("/editUser").hasAuthority("ADMIN")
+                .requestMatchers("/deleteUser").hasAuthority("ADMIN")
+                .requestMatchers("/addEmployee").hasAuthority("ADMIN")
+                .requestMatchers("/addEmployeeToService").hasAuthority("ADMIN")
+                .requestMatchers("/users").hasAuthority("ADMIN")
+                .requestMatchers("/serviceAppointments").hasAnyAuthority("ADMIN","EMPLOYEE")
+                .requestMatchers("/serviceInvoices").hasAnyAuthority("ADMIN","EMPLOYEE")
+                .requestMatchers("/editInvoice").hasAnyAuthority("ADMIN","EMPLOYEE")
+                .requestMatchers("/deleteInvoice").hasAnyAuthority("ADMIN","EMPLOYEE")
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
@@ -35,7 +51,6 @@ public class SecurityConfiguration{
                 csrf().disable();;
 
 
-        //.csrf().disable()?AAAAAA
         return http.build();
     }
 
