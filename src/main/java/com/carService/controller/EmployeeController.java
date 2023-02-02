@@ -46,7 +46,7 @@ public class EmployeeController {
     @GetMapping("/registerEmployee")
     public String showRegister() {
 
-        return "registerEmployee";
+        return "employee/registerEmployee";
     }
 
     @PostMapping("/registerEmployee")
@@ -72,7 +72,7 @@ public class EmployeeController {
 
         model.addAttribute("unemployedWorkers",userService.findAllUnemployedWorkers());
         model.addAttribute("service_id",id);
-        return "addEmployee";
+        return "employee/addEmployee";
     }
 
     @GetMapping("/addEmployeeToService")
@@ -109,7 +109,7 @@ public class EmployeeController {
         model.addAttribute("appointments",appointments);
         model.addAttribute("service",carService);
 
-        return "serviceAppointments";
+        return "appointment/serviceAppointments";
     }
 
     @GetMapping("/serviceInvoices")
@@ -132,7 +132,7 @@ public class EmployeeController {
 
         model.addAttribute("invoices",invoices);
 
-        return "serviceInvoices";
+        return "invoice/serviceInvoices";
     }
 
     @GetMapping("/createInvoice")
@@ -142,7 +142,7 @@ public class EmployeeController {
 
         model.addAttribute("appointment",appointment);
 
-        return "createInvoice";
+        return "invoice/createInvoice";
     }
 
     @PostMapping("/createInvoice")
@@ -175,7 +175,7 @@ public class EmployeeController {
             model.addAttribute("invoice",invoiceEdit);
         }
 
-        return "editInvoice";
+        return "invoice/editInvoice";
     }
     @PostMapping("/editInvoice")
     public String EditInvoice(@ModelAttribute InvoiceEdit invoiceEdit, @RequestParam String id) {
