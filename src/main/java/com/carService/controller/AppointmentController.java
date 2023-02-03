@@ -5,8 +5,6 @@ import com.carService.model.CarService;
 import com.carService.model.User;
 import com.carService.model.Vehicle;
 import com.carService.model.dto.AppointmentRequest;
-import com.carService.repository.CarServiceRepository;
-import com.carService.repository.InvoiceRepository;
 import com.carService.service.AppointmentService;
 import com.carService.service.CarServiceService;
 import com.carService.service.UserService;
@@ -87,11 +85,27 @@ public class AppointmentController {
 
     @GetMapping("/cancelAppointment")
     public String cancelAppointment(@RequestParam String id){
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.findUserByUsername(principal.getUsername());
 
         Appointment appointment = appointmentService.findAppointmentById(Integer.parseInt(id)).orElse(null);
 
-        if(appointment!=null) appointmentService.deleteAppointment(appointment);
+        if(appointment!=null && appointment.getUser().getId() == user.getId()) appointmentService.deleteAppointment(appointment);
 
         return "redirect:/myAppointments";
+    }
+
+    @GetMapping("/deleteAppointment")
+    public String deleteAppointment(@RequestParam String id){
+
+        Appointment appointment = appointmentService.findAppointmentById(Integer.parseInt(id)).orElse(null);
+
+        int serviceId = 0;
+        if(appointment!=null){
+            serviceId = appointment.getCarService().getId();
+            appointmentService.deleteAppointment(appointment);
+        }
+
+        return "redirect:/serviceAppointments?id="+serviceId;
     }
 }

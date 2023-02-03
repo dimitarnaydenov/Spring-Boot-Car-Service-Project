@@ -19,6 +19,7 @@ public class SecurityConfiguration{
                 .requestMatchers("/appointment").authenticated()
                 .requestMatchers("/myAppointments").authenticated()
                 .requestMatchers("/cancelAppointment").authenticated()
+                .requestMatchers("/deleteAppointment").hasAuthority("ADMIN")
                 .requestMatchers("/myInvoices").authenticated()
                 .requestMatchers("/addService").hasAuthority("ADMIN")
                 .requestMatchers("/editService").hasAuthority("ADMIN")
