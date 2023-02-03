@@ -1,6 +1,7 @@
 package com.carService.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.BatchSize;
 
 @Entity
@@ -17,6 +18,7 @@ public class Vehicle {
     private String model;
 
     @Column(nullable = false)
+    @Size(min = 6, max = 10)
     private String  registrationNumber;
 
     @Column(nullable = false)
