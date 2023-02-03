@@ -1,7 +1,11 @@
 package com.carService.service;
 
+import com.carService.model.CarService;
 import com.carService.model.Role;
 import com.carService.model.User;
+import com.carService.repository.AppointmentRepository;
+import com.carService.repository.CarServiceRepository;
+import com.carService.repository.RoleRepository;
 import com.carService.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,19 +15,28 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import javax.swing.text.html.Option;
+import java.util.*;
 
 @Service
 public class UserService implements UserDetailsService {
 
-    @Autowired
+
     private UserRepository userRepository;
+    private RoleRepository roleRepository;
+    private BCryptPasswordEncoder passwordEncoder;
+    private CarServiceRepository carServiceRepository;
+    private AppointmentRepository appointmentRepository;
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    public UserService(UserRepository userRepository, RoleRepository roleRepository,
+                       BCryptPasswordEncoder passwordEncoder, CarServiceRepository carServiceRepository, AppointmentRepository appointmentRepository) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.carServiceRepository = carServiceRepository;
+        this.appointmentRepository = appointmentRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -38,18 +51,23 @@ public class UserService implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         }
 
-        UserDetails userDetails = org.springframework.security.core.userdetails.User.withUsername(user.getUsername()).password(user.getPassword()).authorities(authorities).build();
-        return userDetails;
+        return org.springframework.security.core.userdetails.User.withUsername(user.getUsername()).password(user.getPassword()).authorities(authorities).build();
     }
 
-    public User registerUser(User user) {
-        if(userRepository.findByUsername(user.getUsername()) != null) {
+    public User registerUser(User user, boolean employee) {
+        if(userRepository.findByUsername(user.getUsername()) != null || userRepository.findByEmail(user.getEmail()) != null) {
             return null;
         } else if (user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null || user.getPassword() == null) {
             return null;
         } else {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-            //user.setRole(roleRepository.findByName("USER"));
+
+            if(userRepository.findAll().size() == 0) user.getRoles().add(roleRepository.findByName("ADMIN").orElse(null));
+            else{
+                if(employee) user.getRoles().add(roleRepository.findByName("EMPLOYEE").orElse(null));
+                else user.getRoles().add(roleRepository.findByName("USER").orElse(null));
+            }
+
             return userRepository.save(user);
         }
         
@@ -57,5 +75,65 @@ public class UserService implements UserDetailsService {
 
     public User findUserByUsername(String username){
         return userRepository.findByUsername(username);
+    }
+
+    public Optional<User> findUserById(int id){
+        return userRepository.findById(id);
+    }
+
+    public List<User> getAllUsers(){
+        return userRepository.findAll();
+    }
+
+    public List<User> findAllUnemployedWorkers(){
+        return userRepository.findAllUnemployedWorkers();
+    }
+
+    public User editUser(String firstName, String lastName, String username, String email, Integer id) {
+
+        User user = userRepository.findById(id).orElse(null);
+
+        if(user != null){
+            if (!firstName.equals("") && !user.getFirstName().equals(firstName)) {
+                user.setFirstName(firstName);
+            }
+
+            if (!lastName.equals("") && !user.getLastName().equals(lastName)) {
+                user.setLastName(lastName);
+            }
+
+            if (!username.equals("") && !user.getUsername().equals(username)) {
+                user.setUsername(username);
+            }
+
+            if (!email.equals("") && !user.getEmail().equals(email)) {
+                user.setEmail(email);
+            }
+
+            return userRepository.save(user);
+        }
+
+        return null;
+    }
+
+    public Optional<User> getUserById(int id){
+        return userRepository.findById(id);
+    }
+
+    public void delete(User user) {
+
+        if(user.getRoles().get(0).getName().equals("EMPLOYEE")){
+            Optional<CarService> carServiceOptional = carServiceRepository.findByEmployeeListContains(user);
+            if (carServiceOptional.isPresent()){
+                CarService carService = carServiceOptional.get();
+                carService.getEmployeeList().remove(user);
+                carServiceRepository.save(carService);
+            }
+        }
+
+        if(appointmentRepository.findByUser(user).size() > 0){
+            appointmentRepository.findByUser(user).forEach( a -> appointmentRepository.delete(a));
+        }
+        userRepository.delete(user);
     }
 }
