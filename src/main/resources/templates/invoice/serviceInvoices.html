@@ -26,7 +26,6 @@
         <td th:text="${invoice.vehicle.brand}"></td>
         <td th:text="${invoice.fixedProblem}"></td>
         <td th:text="${invoice.price}"></td>
-        <td><a type="button" class="btn btn-warning" th:href = "@{'/editInvoice?id='+${invoice.id}}">Edit</a></td>
         <td><a type="button" class="btn btn-danger" th:href = "@{'/deleteInvoice?id='+${invoice.id}}">Delete</a></td>
     </tr>
     </tbody>

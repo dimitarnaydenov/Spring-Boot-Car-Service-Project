@@ -27,7 +27,7 @@
         <td th:text="${user.username}"></td>
         <td th:text="${user.firstName}"></td>
         <td th:text="${user.lastName}"></td>
-        <td th:text="${user.roles[0].name}"></td>
+        <td th:text="${user.role.name}"></td>
         <td><a type="button" class="btn btn-warning" sec:authorize="hasAuthority('ADMIN')" th:href = "@{'/editUser?id='+${user.id}}">Edit</a></td>
         <td><a type="button" class="btn btn-danger" sec:authorize="hasAuthority('ADMIN')" th:href = "@{'/deleteUser?id='+${user.id}}">Delete</a></td>
     </tr>

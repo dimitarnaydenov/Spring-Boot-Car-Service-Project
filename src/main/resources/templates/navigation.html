@@ -1,17 +1,17 @@
 <div th:fragment="header" xmlns:th="http://www.w3.org/1999/xhtml">
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="javascript:void(0)">Logo</a>
+            <a class="navbar-brand" href="/services">Service Manager</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="mynavbar">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="javascript:void(0)">Link</a>
+                        <a class="nav-link" href="/addService" sec:authorize="hasAuthority('ADMIN')">Add Service</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="javascript:void(0)">Link</a>
+                        <a class="nav-link" href="/users" sec:authorize="hasAuthority('ADMIN')">Users</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/services">Services</a>
@@ -23,10 +23,16 @@
                         <a class="nav-link" href="/login" sec:authorize="isAnonymous()">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/register" sec:authorize="isAnonymous()">Register</a>
+                        <a class="nav-link" href="/register" sec:authorize="isAnonymous()">Register As Client</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/profile" sec:authorize="isAuthenticated()">Profile</a>
+                        <a class="nav-link" href="/registerEmployee" sec:authorize="isAnonymous()">Register For Job</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/myAppointments" sec:authorize="hasAuthority('ADMIN') or hasAuthority('USER')">My Appointments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/myInvoices" sec:authorize="hasAuthority('ADMIN') or hasAuthority('USER')">My Invoices</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/logout" sec:authorize="isAuthenticated()">Logout</a>

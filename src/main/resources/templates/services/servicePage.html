@@ -26,12 +26,6 @@
                         <h6 th:text="${service.address}"></h6>
                     </div>
 
-                    <div class="form-group">
-                        <h6 class="text-primary">Brands</h6>
-                        <h6 th:if="${#lists.isEmpty(service.brands)}">Service is working with all car brands</h6>
-                        <h6 th:if="${not #lists.isEmpty(service.brands)}" th:text="${#strings.listJoin(service.brands,', ')}"></h6>
-                    </div>
-
                 </div>
             </div>
         </div>
