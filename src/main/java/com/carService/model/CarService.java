@@ -15,14 +15,22 @@ public class CarService {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private String address;
+
     @OneToMany
     private List<User> employeeList = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "carService", cascade = CascadeType.REMOVE)
     private List<Appointment> appointments = new ArrayList<>();
 
-    public CarService(String name) {
+    @OneToMany(mappedBy = "carService", cascade = CascadeType.REMOVE)
+    private List<Invoice> invoices = new ArrayList<>();
+
+
+    public CarService(String name, String address) {
         this.name = name;
+        this.address = address;
     }
 
     public CarService() {
@@ -44,6 +52,14 @@ public class CarService {
         this.name = name;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public List<User> getEmployeeList() {
         return employeeList;
     }
@@ -58,6 +74,14 @@ public class CarService {
 
     public void setAppointments(List<Appointment> appointments) {
         this.appointments = appointments;
+    }
+
+    public List<Invoice> getInvoices() {
+        return invoices;
+    }
+
+    public void setInvoices(List<Invoice> invoices) {
+        this.invoices = invoices;
     }
 
 }
