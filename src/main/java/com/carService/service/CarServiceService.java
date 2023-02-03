@@ -39,10 +39,6 @@ public class CarServiceService {
                 carService.setAddress(carServiceDTO.getAddress());
             }
 
-            if (carServiceDTO.getBrands() != null && !carServiceDTO.getBrands().equals(carService.getBrands())) {
-                carService.setBrands(carServiceDTO.getBrands());
-            }
-
             return carServiceRepository.save(carService);
         }
 
