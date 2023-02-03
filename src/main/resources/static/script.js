@@ -16,8 +16,15 @@ function getAvailableHours(){
                 let response = JSON.parse(xhr.responseText);
 
                 const select_elem = document.getElementById('hour');
+                removeOptions(select_elem);
                 response.forEach(hour => select_elem.add(new Option(hour+':00',hour)));
             }
         }
     })
+}
+
+function removeOptions(selectElement) {
+    for(let i = selectElement.options.length - 1; i >= 0; i--) {
+        selectElement.remove(i);
+    }
 }
