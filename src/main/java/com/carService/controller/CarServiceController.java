@@ -45,7 +45,7 @@ public class CarServiceController {
     @GetMapping("/addService")
     public String showAddService() {
 
-        return "services/addService";
+        return "service/addService";
     }
 
     @PostMapping("/addService")
@@ -64,7 +64,7 @@ public class CarServiceController {
             model.addAttribute("service",carService);
         }
 
-        return "services/editService";
+        return "service/editService";
     }
 
     @PostMapping("/editService")
@@ -107,14 +107,14 @@ public class CarServiceController {
 
         model.addAttribute("employeeInService",employeeInService);
 
-        return "services/servicePage";
+        return "service/servicePage";
     }
 
     @GetMapping("/services")
     public String showServices(Model model) {
 
         model.addAttribute("services", carServiceService.findAll());
-        return "services/carServices";
+        return "service/carServices";
     }
 
     @GetMapping("/getAvailableHours")
