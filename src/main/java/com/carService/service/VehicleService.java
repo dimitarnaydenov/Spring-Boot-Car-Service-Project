@@ -2,9 +2,9 @@ package com.carService.service;
 
 import com.carService.model.Vehicle;
 import com.carService.repository.VehicleRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -23,10 +23,12 @@ public class VehicleService {
         return vehicleRepository.findByRegistrationNumber(registrationNumber);
     }
 
+    @Transactional
     public Vehicle addVehicle(Vehicle vehicle){
         return vehicleRepository.save(vehicle);
     }
 
+    @Transactional
     public Vehicle editVehicle(String brand, String model, String registrationNumber, int productionYear, int id) {
 
         Vehicle vehicle = vehicleRepository.findById(id).orElse(null);

@@ -6,6 +6,7 @@ import com.carService.model.User;
 import com.carService.model.Vehicle;
 import com.carService.model.dto.InvoiceEdit;
 import com.carService.repository.InvoiceRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,7 @@ public class InvoiceService {
         return  invoiceRepository.findInvoicesByCarService(carService);
     }
 
+    @Transactional
     public void addInvoice(Invoice invoice) {
         invoiceRepository.save(invoice);
     }
@@ -44,6 +46,7 @@ public class InvoiceService {
        return invoiceRepository.findById(id);
     }
 
+    @Transactional
     public void delete(Invoice invoice) {
         invoiceRepository.delete(invoice);
     }
@@ -56,6 +59,7 @@ public class InvoiceService {
         return invoiceRepository.getInvoicesByBrand(id);
     }
 
+    @Transactional
     public void editInvoice(InvoiceEdit invoiceEdit, int id) {
         Invoice invoice = invoiceRepository.findById(id).orElse(null);
 

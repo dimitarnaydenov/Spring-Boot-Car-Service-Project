@@ -7,6 +7,7 @@ import com.carService.repository.AppointmentRepository;
 import com.carService.repository.CarServiceRepository;
 import com.carService.repository.RoleRepository;
 import com.carService.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -54,6 +55,7 @@ public class UserService implements UserDetailsService {
         return org.springframework.security.core.userdetails.User.withUsername(user.getUsername()).password(user.getPassword()).authorities(authorities).build();
     }
 
+    @Transactional
     public User registerUser(User user, boolean employee) {
         if(userRepository.findByUsername(user.getUsername()) != null || userRepository.findByEmail(user.getEmail()) != null) {
             return null;
@@ -89,6 +91,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findAllUnemployedWorkers();
     }
 
+    @Transactional
     public User editUser(String firstName, String lastName, String username, String email, Integer id) {
 
         User user = userRepository.findById(id).orElse(null);
@@ -120,6 +123,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findById(id);
     }
 
+    @Transactional
     public void delete(User user) {
 
         if(user.getRoles().get(0).getName().equals("EMPLOYEE")){

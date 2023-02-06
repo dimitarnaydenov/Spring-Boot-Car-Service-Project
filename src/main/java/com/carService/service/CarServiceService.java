@@ -2,9 +2,10 @@ package com.carService.service;
 
 import com.carService.model.CarService;
 import com.carService.repository.CarServiceRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -50,6 +51,7 @@ public class CarServiceService {
         return carServiceRepository.findById(id);
     }
 
+    @Transactional
     public void delete(CarService carService) {
         carServiceRepository.delete(carService);
     }

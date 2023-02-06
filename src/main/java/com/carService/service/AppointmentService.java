@@ -5,6 +5,7 @@ import com.carService.model.CarService;
 import com.carService.model.User;
 import com.carService.model.Vehicle;
 import com.carService.repository.AppointmentRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +42,7 @@ public class AppointmentService {
         return appointmentRepository.findByCarServiceAndDateAndHour(carService, date, i) == null;
     }
 
+    @Transactional
     public Appointment addAppointment(Vehicle vehicle, User user, CarService carService, LocalDate date, int hour){
         if(checkIfHourIsFree(date, carService, hour)){
             Appointment appointment = new Appointment(vehicle,user,carService,date,hour);
@@ -59,6 +61,7 @@ public class AppointmentService {
         return appointmentRepository.findByCarService(carService);
     }
 
+    @Transactional
     public void deleteAppointment(Appointment appointment){
         appointmentRepository.delete(appointment);
     }
