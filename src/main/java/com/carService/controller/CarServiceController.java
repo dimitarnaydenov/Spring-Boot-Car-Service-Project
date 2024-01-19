@@ -1,17 +1,10 @@
 package com.carService.controller;
 
-import com.carService.model.Appointment;
 import com.carService.model.CarService;
 import com.carService.model.User;
-import com.carService.model.Vehicle;
-import com.carService.model.dto.AppointmentRequest;
-import com.carService.repository.AppointmentRepository;
-import com.carService.repository.CarServiceRepository;
-import com.carService.repository.InvoiceRepository;
 import com.carService.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,20 +14,19 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class CarServiceController {
 
-    CarServiceService carServiceService;
-    AppointmentService appointmentService;
-    UserService userService;
-    VehicleService vehicleService;
-    InvoiceService invoiceService;
+    CarServiceServiceImpl carServiceService;
+    AppointmentServiceImpl appointmentService;
+    UserServiceImpl userService;
+    VehicleServiceImpl vehicleService;
+    InvoiceServiceImpl invoiceService;
 
     @Autowired
-    public CarServiceController(CarServiceService carServiceService, AppointmentService appointmentService,
-                                UserService userService, VehicleService vehicleService, InvoiceService invoiceService) {
+    public CarServiceController(CarServiceServiceImpl carServiceService, AppointmentServiceImpl appointmentService,
+                                UserServiceImpl userService, VehicleServiceImpl vehicleService, InvoiceServiceImpl invoiceService) {
         this.carServiceService = carServiceService;
         this.appointmentService = appointmentService;
         this.userService = userService;

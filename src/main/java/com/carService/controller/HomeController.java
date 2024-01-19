@@ -2,8 +2,8 @@ package com.carService.controller;
 
 import com.carService.model.User;
 import com.carService.model.dto.UserDTO;
-import com.carService.service.InvoiceService;
-import com.carService.service.UserService;
+import com.carService.service.InvoiceServiceImpl;
+import com.carService.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,11 +22,11 @@ import java.util.Optional;
 public class HomeController {
 
 
-    UserService userService;
-    InvoiceService invoiceService;
+    UserServiceImpl userService;
+    InvoiceServiceImpl invoiceService;
 
     @Autowired
-    public HomeController(UserService userService, InvoiceService invoiceService) {
+    public HomeController(UserServiceImpl userService, InvoiceServiceImpl invoiceService) {
 
         this.userService = userService;
         this.invoiceService = invoiceService;

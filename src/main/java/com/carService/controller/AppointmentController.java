@@ -5,10 +5,10 @@ import com.carService.model.CarService;
 import com.carService.model.User;
 import com.carService.model.Vehicle;
 import com.carService.model.dto.AppointmentRequest;
-import com.carService.service.AppointmentService;
-import com.carService.service.CarServiceService;
-import com.carService.service.UserService;
-import com.carService.service.VehicleService;
+import com.carService.service.AppointmentServiceImpl;
+import com.carService.service.CarServiceServiceImpl;
+import com.carService.service.UserServiceImpl;
+import com.carService.service.VehicleServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,14 +25,14 @@ import java.util.Optional;
 @Controller
 public class AppointmentController {
 
-    CarServiceService carServiceService;
-    AppointmentService appointmentService;
-    UserService userService;
-    VehicleService vehicleService;
+    CarServiceServiceImpl carServiceService;
+    AppointmentServiceImpl appointmentService;
+    UserServiceImpl userService;
+    VehicleServiceImpl vehicleService;
 
     @Autowired
-    public AppointmentController(CarServiceService carServiceService, AppointmentService appointmentService,
-                                 UserService userService, VehicleService vehicleService) {
+    public AppointmentController(CarServiceServiceImpl carServiceService, AppointmentServiceImpl appointmentService,
+                                 UserServiceImpl userService, VehicleServiceImpl vehicleService) {
         this.carServiceService = carServiceService;
         this.appointmentService = appointmentService;
         this.userService = userService;

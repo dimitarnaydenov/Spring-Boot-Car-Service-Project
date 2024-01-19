@@ -3,13 +3,11 @@ package com.carService.controller;
 import com.carService.model.*;
 import com.carService.model.dto.InvoiceEdit;
 import com.carService.model.dto.StatisticsObject;
-import com.carService.repository.CarServiceRepository;
-import com.carService.repository.InvoiceRepository;
 import com.carService.repository.QualificationRepository;
-import com.carService.service.AppointmentService;
-import com.carService.service.CarServiceService;
-import com.carService.service.InvoiceService;
-import com.carService.service.UserService;
+import com.carService.service.AppointmentServiceImpl;
+import com.carService.service.CarServiceServiceImpl;
+import com.carService.service.InvoiceServiceImpl;
+import com.carService.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,14 +25,14 @@ import java.util.Optional;
 @Controller
 public class EmployeeController {
 
-    CarServiceService carServiceService;
-    AppointmentService appointmentService;
-    UserService userService;
-    InvoiceService invoiceService;
+    CarServiceServiceImpl carServiceService;
+    AppointmentServiceImpl appointmentService;
+    UserServiceImpl userService;
+    InvoiceServiceImpl invoiceService;
     QualificationRepository qualificationRepository;
 
     @Autowired
-    public EmployeeController(CarServiceService carServiceService, AppointmentService appointmentService, UserService userService, InvoiceService invoiceService, QualificationRepository qualificationRepository) {
+    public EmployeeController(CarServiceServiceImpl carServiceService, AppointmentServiceImpl appointmentService, UserServiceImpl userService, InvoiceServiceImpl invoiceService, QualificationRepository qualificationRepository) {
         this.carServiceService = carServiceService;
         this.appointmentService = appointmentService;
         this.userService = userService;
